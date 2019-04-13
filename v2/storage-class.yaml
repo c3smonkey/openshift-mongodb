@@ -1,0 +1,10 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: generic
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: Immediate #WaitForFirstConsumer
+parameters:
+  pool: default
+  description: Kubernetes volume
+  fsType: ext4

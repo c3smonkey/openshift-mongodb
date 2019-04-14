@@ -1,5 +1,5 @@
-name: openshift-mongodb
-title: openshift-mongodb
+name: -name-
+title: -title-
 version: master
 nav:
 - modules/ROOT/nav.adoc

@@ -68,7 +68,7 @@ my-release-mongodb-replicaset-client   ClusterIP   None            <none>       
 
 [source,bash,subs=attributes+]
 ----
-mongodb://{IP-OF-THE-NODE-1}:32587,{IP-OF-THE-NODE-2}:31934,{IP-OF-THE-NODE-3}:32741/test\?replSet=rs0
+mongodb://IP-OF-THE-NODE-1:32587,{IP-OF-THE-NODE-2}:31934,{IP-OF-THE-NODE-3}:32741/test\?replSet=rs0
 ----
 
 [source,bash,subs=attributes+]

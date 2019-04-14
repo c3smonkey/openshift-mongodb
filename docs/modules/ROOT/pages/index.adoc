@@ -16,18 +16,21 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 
 Download _values.yaml_
 
-```bash
+[source,bash,subs=attributes+]
+----
 http https://raw.githubusercontent.com/helm/charts/master/stable/mongodb-replicaset/values.yaml --download
-```
+----
+
 Change _openshift_ SecurityContext configuration _runAsUser_  to _1000320000_
 
-```bash
+[source,yaml,subs=attributes+]
+----
 securityContext:
   enabled: true
   runAsUser: 1000320000
   fsGroup: ""
   runAsNonRoot: true
-```
+----
 
 === install
 [source,bash,subs=attributes+]

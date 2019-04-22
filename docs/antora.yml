@@ -1,5 +1,6 @@
-name: MongoDb configuration
-title: openshift
+name: Openshift MongoDB Configuration
+title: Openshift MongoDB Configuration
 version: master
+start_page: ROOT:index.adoc
 nav:
 - modules/ROOT/nav.adoc

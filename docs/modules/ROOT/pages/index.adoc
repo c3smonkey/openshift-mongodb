@@ -18,7 +18,8 @@ Download _values.yaml_
 
 [source,bash,subs=attributes+]
 ----
-http https://raw.githubusercontent.com/helm/charts/master/stable/mongodb-replicaset/values.yaml --download
+http \
+    https://raw.githubusercontent.com/helm/charts/master/stable/mongodb-replicaset/values.yaml --download
 ----
 
 Change _openshift_ SecurityContext configuration _runAsUser_  to _1000320000_
@@ -60,11 +61,11 @@ oc get svc
 [source,bash,subs=attributes+]
 ----
 NAME                                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)           AGE
-my-release-mongodb-replicaset          ClusterIP   None            <none>        27017/TCP         6h
-my-release-mongodb-replicaset-0        NodePort    172.30.12.120   <none>        27017:32587/TCP   24s
-my-release-mongodb-replicaset-1        NodePort    172.30.36.2     <none>        27017:31934/TCP   15s
-my-release-mongodb-replicaset-2        NodePort    172.30.248.61   <none>        27017:32741/TCP   10s
-my-release-mongodb-replicaset-client   ClusterIP   None            <none>        27017/TCP         6h
+mymongodbreplicaset-replicaset          ClusterIP   None            <none>        27017/TCP         6h
+mymongodbreplicaset-replicaset-0        NodePort    172.30.12.120   <none>        27017:32587/TCP   24s
+mymongodbreplicaset-replicaset-1        NodePort    172.30.36.2     <none>        27017:31934/TCP   15s
+mymongodbreplicaset-replicaset-2        NodePort    172.30.248.61   <none>        27017:32741/TCP   10s
+mymongodbreplicaset-replicaset-client   ClusterIP   None            <none>        27017/TCP         6h
 ----
 
 == MongoDB Connection String
@@ -76,7 +77,7 @@ mongodb://IP-OF-THE-NODE-1:32587,IP-OF-THE-NODE-2:31934,IP-OF-THE-NODE-3:32741/t
 
 [source,bash,subs=attributes+]
 ----
-mongodb://my-release-mongodb-replicaset-local-storage.apps.c3smonkey.ch:32587,my-release-mongodb-replicaset-local-storage.apps.c3smonkey.ch:31934,my-release-mongodb-replicaset-local-storage.apps.c3smonkey.ch:32741/test\?replSet=rs0
+mongodb://mymongodbreplicaset.apps.c3smonkey.ch:32587,mymongodbreplicaset.apps.c3smonkey.ch:31934,mymongodbreplicaset.apps.c3smonkey.ch:32741/test\?replSet=rs0
 ----
 
 Connect to PRIMARY
@@ -86,9 +87,9 @@ Reconfigure replicaSet
 ----
 cfg = rs.conf();
 
-cfg.members[0].host="my-release-mongodb-replicaset-local-storage.apps.c3smonkey.ch:32587"
-cfg.members[1].host="my-release-mongodb-replicaset-local-storage.apps.c3smonkey.ch:31934"
-cfg.members[2].host="my-release-mongodb-replicaset-local-storage.apps.c3smonkey.ch:c"
+cfg.members[0].host="mymongodbreplicaset.apps.c3smonkey.ch:32587"
+cfg.members[1].host="mymongodbreplicaset.apps.c3smonkey.ch:31934"
+cfg.members[2].host="mymongodbreplicaset.apps.c3smonkey.ch:32741"
 rs.reconfig(cfg);
 ----
 

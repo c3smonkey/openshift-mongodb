@@ -1,0 +1,127 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "ServiceAccount",
+            "metadata": {
+                "name": "tiller"
+            }
+        },
+        {
+            "apiVersion": "authorization.openshift.io/v1",
+            "kind": "Role",
+            "metadata": {
+                "name": "tiller"
+            },
+            "rules": [
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "configmaps"
+                    ],
+                    "verbs": [
+                        "create",
+                        "get",
+                        "list",
+                        "update",
+                        "delete"
+                    ]
+                },
+                {
+                    "apiGroups": [
+                        ""
+                    ],
+                    "resources": [
+                        "namespaces"
+                    ],
+                    "verbs": [
+                        "get"
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "authorization.openshift.io/v1",
+            "kind": "RoleBinding",
+            "metadata": {
+                "name": "tiller"
+            },
+            "roleRef": {
+                "name": "tiller",
+                "namespace": "tiller"
+            },
+            "subjects": [
+                {
+                    "kind": "ServiceAccount",
+                    "name": "tiller"
+                }
+            ]
+        },
+        {
+            "apiVersion": "extensions/v1beta1",
+            "kind": "Deployment",
+            "metadata": {
+                "name": "tiller"
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "matchLabels": {
+                        "app": "helm",
+                        "name": "tiller"
+                    }
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "helm",
+                            "name": "tiller"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "TILLER_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "image": "gcr.io/kubernetes-helm/tiller:v2.14.0",
+                                "livenessProbe": {
+                                    "httpGet": {
+                                        "path": "/liveness",
+                                        "port": 44135
+                                    }
+                                },
+                                "name": "tiller",
+                                "ports": [
+                                    {
+                                        "containerPort": 44134,
+                                        "name": "tiller"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "httpGet": {
+                                        "path": "/readiness",
+                                        "port": 44135
+                                    }
+                                }
+                            }
+                        ],
+                        "serviceAccountName": "tiller"
+                    }
+                }
+            }
+        }
+    ]
+}
